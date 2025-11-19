@@ -1,0 +1,186 @@
+.medicine{
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.medicine h2{
+    text-align: center;
+    color:#2c3e50;
+}
+
+.para{
+    text-align: center;
+    color: #2c3e50;
+    font-weight: 100;
+    padding: 6px;
+}
+
+h3{
+    color: #2c3e50;
+}
+
+p{
+    color: #2c3e50;
+}
+form div{
+    margin-bottom: 12px;
+}
+
+label{
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #2c3e50;
+}
+
+input{
+    width: 100%;
+    padding: 7px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+button{
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #27ae60;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: #219150;
+}
+
+button:active{
+    background-color:#2c3e50;
+    transform: translateY(4px);
+}
+
+.preview, .medication-list{
+    margin-top: 20px;
+    padding: 10px;
+    background:#fff ;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.medication-list ul{
+    list-style-type:disc;
+    padding-left: 20px;
+    margin: 20px;
+
+}
+
+.med-cards{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.med-card{
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.med-card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0,0,0, 0.15);
+}
+
+.med-card h4{
+    color: #2c3e50;
+    margin: 0 0 0.5rem 0;
+}
+
+.med-card p{
+    margin: 0.2rem 0;
+    font-size: 0.9rem;
+    color: #2c3e50;
+}
+
+.delete-btn{
+    margin-left: auto;
+    color: #219150;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+
+}
+
+.delete-btn:hover{
+    color: darkred;
+}
+
+.blurred{
+    filter: blur();
+    pointer-events: none;
+    user-select: none;
+}
+
+.modal-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content{
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 10000;
+}
+
+.update-med, .cancel-btn{
+     padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  margin: 10px;
+
+}
+
+.update-med {
+  background-color: #4caf50; /* green */
+  color: white;
+}
+
+.update-med:hover {
+  background-color: #45a049;
+}
+
+.cancel-btn {
+  background-color: #f44336; /* red */
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: #d32f2f;
+}

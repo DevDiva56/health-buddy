@@ -1,0 +1,55 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.app-header{
+    background-color:  #4CAF50;
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.app-main{
+    display: flex;
+    min-height: 80vh;
+}
+
+.nav-bar{
+   width: 200px;
+   background:#f4f4f4;
+   padding: 1rem;
+}
+
+.routes{
+    flex: 1;
+    padding: 1rem;
+}
+
+.nav-links{
+    list-style: none;
+    padding: 0;
+}
+
+.nav-links li{
+    margin: 0.5rem 0;
+}
+
+.nav-links a{
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    padding: 0.5rem;
+    display: block;
+    border-radius: 4px;
+}
+
+.nav-links a:hover{
+    background: #ddd;
+
+}
+
+.nav-links a:active{
+    background: #4CAF50;
+}
