@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react"
-import { ToastContainer } from "react-toastify"
+import { ToastContainer, toast } from "react-toastify"
 import"react-toastify/dist/ReactToastify.css"
 import"./Medication.css"
 
+//Add Modal
 function Medication() {
-    const [medName, setMedName] = useState('')
-    const[medDose, setMedDose] =useState('')
-    const[medTime, setMedTime] = useState('')
-    const[medSch, setMedSch] = useState('')
+    const [medName, setMedName] = useState("")
+    const[medDose, setMedDose] =useState("")
+    const[medTime, setMedTime] = useState("")
+    const[medSch, setMedSch] = useState("")
 
     // Edit Modal
     const [editName, setEditName] = useState("");
@@ -18,85 +19,107 @@ function Medication() {
 
     const[medication, setMedication] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
+
     const[isEditing, setIsEditing] =useState(false)
     const[editIndex, setEditIndex] = useState(null)
 
+
+   //Loading Modal
     useEffect(()=>{
-    const savedMeds =localStorage.getItem("medications");
-    if(savedMeds){
-        setMedication(JSON.parse(savedMeds))
+    const saved =localStorage.getItem("medications");
+    if(saved){
+        setMedication(JSON.parse(saved))
+          setIsLoaded(true)
     }
-    setIsLoaded(true)
+  
 },[])
 
 
+//Storage Modal
     useEffect(()=>{
         if(isLoaded){
         
         localStorage.setItem("medications",JSON.stringify(medication))
         }
 },
-[medication, isLoaded])
+    [medication, isLoaded])
 
 
+//DELETE Medication
 
- const handleDelete=(indexToDelete)=>{
+ const handleDelete=(index)=>{
      const confirmDelete = window.confirm("🗑️ Are you sure you want to delete this medication?");
   if (!confirmDelete) return;
-        setMedication((prevMeds)=>
-            prevMeds.filter((_, index)=> index!==indexToDelete)
+
+        setMedication((prev)=>
+            prev.filter((_, i)=> i!==index)
 
     );
      toast.error("❌ Medication deleted.");
     }
 
-    const handleEdit =(indexToEdit)=>{
-        // console.log("Editing med at index", indexToEdit);
-        const medToEdit = medication[indexToEdit];
-        setMedName(medToEdit.name)
-        setMedDose(medToEdit.dose)
-         setMedSch(medToEdit.schedule)
-        setMedTime(medToEdit.time)
-         setEditIndex(indexToEdit)
+    //Open Edit Modal
+    const handleEdit =(index)=>{
+        const med = medication[index];
+        setEditName(med.name);
+        setEditDose(med.dose);
+         setEditTime(med.time);
+         setEditSch(med.schedule);
+
+         setEditIndex(index)
         setIsEditing(true)
     }
 
 
+    //Update Modal
 
-    const handleAddMedication =(e)=>{
+    const handleUpdateMedication =(e)=>{
         e.preventDefault()
 
-        if(!medName||!medDose|| !medSch||!medTime){
-            toast.warning ("⚠️ Please fill in all fields before saving your medication.");
-    return;
+         const updatedMed = {
+      name: editName,
+      dose: editDose,
+      time: editTime,
+      schedule: editSch,
+    }
+
+      const updatedList = [...medication];
+    updatedList[editIndex] = updatedMed;
+
+    setMedication(updatedList);
+    setIsEditing(false);
+    setEditIndex(null);
+
+    toast.success("Medication updated successfully!");
   }
 
-        const newMed = {
-            name: medName,
-            dose: medDose,
-            schedule: medSch,
-            time: medTime
+  // ADD NEW medication
+  const handleAddMedication = (e) => {
+    e.preventDefault();
 
-        } 
-
-
-        if(isEditing){
-            const updateMeds =[...medication]
-            updateMeds[editIndex] =newMed;
-            setMedication(updateMeds)
-            setIsEditing(false)
-            setEditIndex(null)
-            setShowModal(false);
-            toast.success("✅ Medication updated successfully!");
-        } else{
-              setMedication([...medication, newMed])
-     toast.success("💊 Medication added successfully!");
-        }
-        setMedName("")
-    setMedDose("")
-    setMedSch("")
-    setMedTime("")
+    if (!medName || !medDose || !medTime || !medSch) {
+      toast.warning("Please fill all fields!");
+      return;
     }
+
+    const newMed = {
+      name: medName,
+      dose: medDose,
+      time: medTime,
+      schedule: medSch,
+    };
+
+    setMedication([...medication, newMed]);
+
+    toast.success("Medication added!");
+
+    // clear form
+    setMedName("");
+    setMedDose("");
+    setMedTime("");
+    setMedSch("");
+  }
+   
 
 
 
@@ -106,42 +129,42 @@ function Medication() {
             <div className="modal-overlay">
                 <div className="modal-content">
                     <h3>Edit Medicine</h3>
-                     <form onSubmit={handleAddMedication}>
+                     <form onSubmit={handleUpdateMedication}>
                         <div>
                             <label>Medication Name:</label>
                             <input
                                 type="text"
-                                value={medName}
-                                onChange={(e) => setMedName(e.target.value)}
-                                placeholder="Enter medicine"
+                                value={editName}
+                                onChange={(e) => setEditName(e.target.value)}
                             />
                         </div>
+
                         <div>
                             <label>Dosage:</label>
                             <input
                                 type="text"
-                                value={medDose}
-                                onChange={(e) => setMedDose(e.target.value)}
-                                placeholder="Enter Dosage"
+                                value={editDose}
+                                onChange={(e) => setEditDose(e.target.value)}
                             />
                         </div>
                         <div>
                             <label>Schedule:</label>
                             <input
                                 type="text"
-                                value={medSch}
-                                onChange={(e) => setMedSch(e.target.value)}
-                                placeholder="Enter Schedule"
+                                value={editSch}
+                                onChange={(e) => setEditSch(e.target.value)}
                             />
                         </div>
+
                         <div>
                             <label>Time:</label>
                             <input
                                 type="time"
-                                value={medTime}
-                                onChange={(e) => setMedTime(e.target.value)}
+                                value={editTime}
+                                onChange={(e) => setEditTime(e.target.value)}
                             />
                         </div>
+
                         <button className="update-med" type="submit">Update Medication</button>
                         <button className="cancel-btn" type="button" onClick={() => setIsEditing(false)}>
                             Cancel
@@ -150,6 +173,8 @@ function Medication() {
                 </div>
             </div>
         )}
+
+        {/* MAIN PAGE */}
             <h2>Medication Page</h2>
             <p className="para">Here you’ll add and view medications.</p>
             <form onSubmit={handleAddMedication}>
@@ -169,8 +194,9 @@ function Medication() {
                     <label>Time</label>
                     <input type="time" value={medTime} onChange={(e)=>setMedTime(e.target.value)}/>
                 </div>
-                <button type="submit">{isEditing?"Update Medication": "Add Medication"}</button>
+                <button type="submit">Add Medication</button>
             </form>
+
             {/* preview section */}
             <div className="preview">
                 <h3>Preview</h3>
@@ -182,9 +208,6 @@ function Medication() {
 
             
             <div className="medication-list">
-
-            
-            
                 <h3>💊Saved Medication</h3>
                 {
                     medication.length===0?(
@@ -193,20 +216,22 @@ function Medication() {
                         <div className="med-cards">
                             {
                                 medication.map((med,index)=>(
-                                    <div key={index} className="med-card" >
+                                    <div className="med-card" key={index}>
                                         <h4>{med.name}</h4>
                                         <p><strong>Dosage:</strong>{med.dose}</p>
                                         <p><strong>Schedule:</strong>{med.schedule}</p>
                                         <p><strong>Time:</strong>{med.time}</p>
+
+                                        {/* Edit Button */}
+                                    <button className="edit-btn" onClick={()=>handleEdit(index)}>✎</button>
+                                  
 
                                         {/* Delete Button */}
                                         <button className="delete-btn" onClick={()=>handleDelete(index)}>
                                         🚮
                                     </button>
 
-                                    {/* Edit Button */}
-                                    <button className="edit-btn" onClick={()=>handleEdit(index)}>✎</button>
-                                    </div>
+                                    </div>  
                                       
 
                                 ))
@@ -218,26 +243,10 @@ function Medication() {
                         </div>
                     )
                 }
-            
-                {/* <h3> 💊 Medication List</h3>
-                <ul>
-                    {medication.map((med, index)=>(
-                        <li key={index}>
-                            {med.name}-{med.dose}-{med.schedule}-{med.time}
-
-                        </li>
-                    ))}
-                </ul> */}
             </div>
+
             <ToastContainer
   position="bottom-right"
-  autoClose={2500}
-  hideProgressBar={false}
-  newestOnTop={false}
-  closeOnClick
-  pauseOnFocusLoss
-  draggable
-  pauseOnHover
   theme="colored"
 />
         </div>
